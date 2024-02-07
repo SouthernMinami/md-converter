@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#editor-container,
+#preview-container {
+    flex: 1;
+    width: 48%;
+    box-sizing: border-box;
+}
+
+#preview-container {
+    border-left: 1px solid #000;
+    padding: 10px;
+}
