@@ -6,12 +6,27 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit7e1495fb2e8a2820ba6766561cd0f083
 {
+    public static $files = array (
+        'b6ec61354e97f32c0ae683041c78392a' => __DIR__ . '/..' . '/scrivo/highlight.php/HighlightUtilities/functions.php',
+    );
+
     public static $prefixesPsr0 = array (
         'P' => 
         array (
             'Parsedown' => 
             array (
                 0 => __DIR__ . '/..' . '/erusev/parsedown',
+            ),
+        ),
+        'H' => 
+        array (
+            'Highlight\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/scrivo/highlight.php',
+            ),
+            'HighlightUtilities\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/scrivo/highlight.php',
             ),
         ),
     );

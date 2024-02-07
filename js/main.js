@@ -1,3 +1,5 @@
+let previewType = "html";
+let previewHighlighten = false;
 
 require.config({
     paths: {
@@ -17,31 +19,28 @@ require(['vs/editor/editor.main'], () => {
         ].join('\n'),
         language: 'markdown'
     })
+    editor.focus();
+
 
     window.addEventListener('load', () => {
         render();
     })
 
-    const debounce = (fn, delay) => {
-        return (...args) => {
-            if (fn.timer) {
-                clearTimeout(fn.timer)
-            }
-            fn.timer = setTimeout(() => {
-                fn(...args);
-            }, delay)
-        }
-    }
 
     editor.getModel().onDidChangeContent(() => {
-        debounce(render, 1000)();
+        render();
     })
 })
 
 const render = () => {
+    const reqJSON = {
+        text: editor.getValue(),
+        previewType: previewType,
+        previewHighlighten: previewHighlighten
+    }
     fetch('render.php', {
         method: 'POST',
-        body: editor.getValue(),
+        body: JSON.stringify(reqJSON),
         headers: {
             'Content-Type': 'text/plain'
         }
@@ -49,6 +48,55 @@ const render = () => {
         .then(res => res.text())
         .then(data => {
             document.getElementById('preview').innerHTML = data
+        })
+        .catch(err => console.error(err))
+}
+
+const changePreviewType = (type) => {
+    previewType = type;
+    render();
+}
+
+const highlight = () => {
+    // highlight the code of monaco editor 
+    const button = document.getElementById('highlight-button');
+    if (button.innerHTML === 'Highlight ON') {
+        button.innerHTML = 'Highlight ON';
+        previewHighlighten = false;
+    } else {
+        button.innerHTML = 'Highlight OFF';
+        previewHighlighten = true;
+    }
+}
+
+const downloadMd = () => {
+    const a = document.createElement('a');
+    const file = new Blob([editor.getValue()], { type: 'text/markdown' });
+    a.href = URL.createObjectURL(file);
+    a.download = 'markdown.md';
+    a.click();
+}
+
+const downloadHTML = () => {
+    const reqJSON = {
+        text: editor.getValue(),
+        previewType: 'html',
+        previewHighlighten: false
+    }
+    fetch('render.php', {
+        method: 'POST',
+        body: JSON.stringify(reqJSON),
+        headers: {
+            'Content-Type': 'text/plain'
+        }
+    })
+        .then(res => res.text())
+        .then(data => {
+            const a = document.createElement('a');
+            const file = new Blob([data], { type: 'text/html' });
+            a.href = URL.createObjectURL(file);
+            a.download = 'markdown.html';
+            a.click();
         })
         .catch(err => console.error(err))
 }

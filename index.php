@@ -15,14 +15,22 @@
     <main>
         <div id="editor-container" style="height: 500px; width: 800px;"></div>
         <div id="preview-container">
-            <h3>Preview</h3>
-            <div id="button-container">
-                <button id="to-html" onclick="setTimeout(render, 1000);">To HTML</button>
-                <button id="to-md-text">To Markdown Text</button>
-                <p>Preview will be shown here</p>
+            <div id="render-buttons">
+                <button id="preview-button" onclick="changePreviewType('html')">Preview</button>
+                <button id="html-code-button" onclick="changePreviewType('html code')">HTML Code</button>
+            </div>
+            <div id="editor-buttons">
+                <button id="highlight-button" onclick="highlight()">Highlight OFF</button>
+                <button id="clear-button" onclick="clear()">Clear</button>
+            </div>
+            <div>
+                <button id="download-md-button" onclick="downloadMd()">Download MD</button>
+                <button id="download-html-button" onclick="downloadHTML()">Download HTML</button>
             </div>
             <div id="preview"></div>
+        </div>
     </main>
 </body>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
 
 </html>
